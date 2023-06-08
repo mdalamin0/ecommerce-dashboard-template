@@ -20,7 +20,7 @@ import MDEditor from "@uiw/react-md-editor";
 const Add_product = () => {
 	const [value, setValue] = useState('')
 	const [quantity, setQuantity] = useState(1);
-	const [file, setFile] = useState();
+	const [file, setFile] = useState([]);
 	const [dummyimgs, setDummyimgs] = useState([
 		{ img: user },
 		{ img: user },
@@ -66,7 +66,43 @@ const Add_product = () => {
 		reader.readAsDataURL(image);
 	};
 
-	const handleValidSubmit = () => {};
+	const handleValidSubmit = (event) => {
+		event.preventDefault();
+		const form = event.target;
+		const name = form.product_name.value;
+		const brand = form.brand_name.value;
+		const description = value;
+		const price = form.price.value;
+		const discount = form.discount.value;
+		const quantity = form.quantity.value;
+		const type = form.type.value;
+		const category = form.category.value;
+		const images = dummyimgs
+		
+		const product = {
+			name,
+			brand,
+			description,
+			price,
+			discount,
+			quantity,
+			type,
+			category, 
+		}
+		console.log(product)
+		fetch('http://localhost:9001/api/products/', {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json'
+			},
+			body: JSON.stringify(product)
+		})
+		.then(res => res.json())
+		.then(data => {
+			console.log(data)
+		})
+		
+	};
 	return (
 		<Fragment>
 			<Breadcrumb title="Add Product" parent="Physical" />
@@ -138,6 +174,21 @@ const Add_product = () => {
 												</FormGroup>
 												<FormGroup className="form-group mb-3 row">
 													<Label className="col-xl-3 col-sm-4 mb-0">
+														Brand Name :
+													</Label>
+													<div className="col-xl-8 col-sm-7">
+														<Input
+															className="form-control"
+															name="brand_name"
+															id="validationCustom01"
+															type="text"
+															required
+														/>
+													</div>
+													<div className="valid-feedback">Looks good!</div>
+												</FormGroup>
+												<FormGroup className="form-group mb-3 row">
+													<Label className="col-xl-3 col-sm-4 mb-0">
 														Price :
 													</Label>
 													<div className="col-xl-8 col-sm-7">
@@ -153,21 +204,65 @@ const Add_product = () => {
 												</FormGroup>
 												<FormGroup className="form-group mb-3 row">
 													<Label className="col-xl-3 col-sm-4 mb-0">
-														Product Code :
+													Discount :
 													</Label>
 													<div className="col-xl-8 col-sm-7">
 														<Input
-															className="form-control "
-															name="product_code"
-															id="validationCustomUsername"
+															className="form-control mb-0"
+															name="discount"
+															id="validationCustom02"
 															type="number"
 															required
 														/>
 													</div>
-													<div className="invalid-feedback offset-sm-4 offset-xl-3">
-														Please choose Valid Code.
-													</div>
+													<div className="valid-feedback">Looks good!</div>
 												</FormGroup>
+												<FormGroup className="form-group mb-3 row">
+													<Label className="col-xl-3 col-sm-4 mb-0">
+													Quantity :
+													</Label>
+													<div className="col-xl-8 col-sm-7">
+														<Input
+															className="form-control mb-0"
+															name="quantity"
+															id="validationCustom02"
+															type="number"
+															required
+														/>
+													</div>
+													<div className="valid-feedback">Looks good!</div>
+												</FormGroup>
+												<FormGroup className="form-group mb-3 row">
+													<Label className="col-xl-3 col-sm-4 mb-0">
+													Type :
+													</Label>
+													<div className="col-xl-8 col-sm-7">
+														<Input
+															className="form-control mb-0"
+															name="type"
+															id="validationCustom02"
+															type="text"
+															required
+														/>
+													</div>
+													<div className="valid-feedback">Looks good!</div>
+												</FormGroup>
+												<FormGroup className="form-group mb-3 row">
+													<Label className="col-xl-3 col-sm-4 mb-0">
+													Category :
+													</Label>
+													<div className="col-xl-8 col-sm-7">
+														<Input
+															className="form-control mb-0"
+															name="category"
+															id="validationCustom02"
+															type="text"
+															required
+														/>
+													</div>
+													<div className="valid-feedback">Looks good!</div>
+												</FormGroup>
+												
 											</div>
 											<div className="form">
 												<FormGroup className="form-group mb-3 row">
